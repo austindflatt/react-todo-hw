@@ -19,7 +19,9 @@ export class App extends Component {
 			},
 		],
 		newTodo: "",
+		errorMessage: "",
 	};
+
 	handleInputChange = (event) => {
 		console.log(this.state.newTodo);
 		this.setState({
@@ -29,16 +31,15 @@ export class App extends Component {
 
 	handleOnSubmit = (event) => {
 		event.preventDefault();
-		if(event.target.value === ' '){
-			alert('Cannot submit an empty field')
-		}
+
 		let newArray = [
 			...this.state.todoArray,
 			{ id: uuidv4(), todo: this.state.newTodo },
 		];
-		this.setState({
-			todoArray: newArray,
-		});
+
+		this.state.newTodo === '' ? this.setState.errorMessage(alert('Cannot be an empty field')) :
+		(this.state.todoArray.some(title => title.todo === this.state.newTodo)) ? this.setState.errorMessage(alert('No duplicate!')) :
+		this.setState({ todoArray: newArray, newTodo: '', })
 	};
 
 	showTodoArray = () => {
@@ -53,7 +54,7 @@ export class App extends Component {
 
 	
 	render() {
-		const { newTodo } = this.state;
+		const { newTodo, errorMessage } = this.state;
 		return (
 			<div className="App">
 				<form onSubmit={this.handleOnSubmit}>
